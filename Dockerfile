@@ -2,15 +2,8 @@ FROM huggla/openjre-alpine
 
 # Image-specific BEV_NAME variable.
 # ---------------------------------------------------------------------
-ENV BEV_NAME="openjre"
+ENV BEV_NAME="tomcat"
 # ---------------------------------------------------------------------
-
-ENV BIN_DIR="/usr/local/bin" \
-    SUDOERS_DIR="/etc/sudoers.d" \
-    CONFIG_DIR="/etc/$BEV_NAME" \
-    LANG="en_US.UTF-8"
-ENV BUILDTIME_ENVIRONMENT="$BIN_DIR/buildtime_environment" \
-    RUNTIME_ENVIRONMENT="$BIN_DIR/runtime_environment"
 
 # Image-specific buildtime environment variables.
 # ---------------------------------------------------------------------
@@ -44,25 +37,13 @@ ENV TOMCAT_ASC_URLS \
 
 # ---------------------------------------------------------------------
 
-COPY ./bin ${BIN_DIR}
+#COPY ./bin ${BIN_DIR}
 
 # Image-specific COPY commands.
 # ---------------------------------------------------------------------
 
 # ---------------------------------------------------------------------
     
-RUN env | grep "^BEV_" > "$BUILDTIME_ENVIRONMENT" \
- && addgroup -S sudoer \
- && adduser -D -S -H -s /bin/false -u 100 -G sudoer sudoer \
- && (getent group $BEV_NAME || addgroup -S $BEV_NAME) \
- && (getent passwd $BEV_NAME || adduser -D -S -H -s /bin/false -u 101 -G $BEV_NAME $BEV_NAME) \
- && touch "$RUNTIME_ENVIRONMENT" \
- && apk add --no-cache sudo \
- && echo 'Defaults lecture="never"' > "$SUDOERS_DIR/docker1" \
- && echo "Defaults secure_path = \"$BIN_DIR\"" >> "$SUDOERS_DIR/docker1" \
- && echo 'Defaults env_keep = "REV_*"' > "$SUDOERS_DIR/docker2" \
- && echo "sudoer ALL=(root) NOPASSWD: $BIN_DIR/start" >> "$SUDOERS_DIR/docker2"
-
 # Image-specific RUN commands.
 # ---------------------------------------------------------------------
 RUN mkdir -p "$CATALINA_HOME" \
