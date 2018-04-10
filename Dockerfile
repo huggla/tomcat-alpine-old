@@ -1,12 +1,8 @@
 FROM huggla/openjre-alpine
 
-# Image-specific BEV_NAME variable.
-# ---------------------------------------------------------------------
-ENV BEV_NAME="tomcat"
-# ---------------------------------------------------------------------
+USER root
 
-# Image-specific buildtime environment variables.
-# ---------------------------------------------------------------------
+ENV BEV_NAME="tomcat"
 ENV CATALINA_HOME /usr/local/tomcat
 ENV PATH $CATALINA_HOME/bin:$PATH
 ENV TOMCAT_NATIVE_LIBDIR $CATALINA_HOME/native-jni-lib
@@ -35,15 +31,8 @@ ENV TOMCAT_ASC_URLS \
 	https://www.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz.asc \
 	https://archive.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz.asc
 
-# ---------------------------------------------------------------------
-
 #COPY ./bin ${BIN_DIR}
 
-# Image-specific COPY commands.
-# ---------------------------------------------------------------------
-
-# ---------------------------------------------------------------------
-    
 # Image-specific RUN commands.
 # ---------------------------------------------------------------------
 RUN mkdir -p "$CATALINA_HOME" \
