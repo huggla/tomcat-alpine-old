@@ -43,7 +43,7 @@ RUN mkdir -p "$CATALINA_HOME" \
  && apk add --no-cache --virtual .native-build-deps apr-dev coreutils dpkg-dev dpkg gcc libc-dev make "openjdk${JAVA_VERSION%%[-~bu]*}"="$JAVA_ALPINE_VERSION" openssl-dev \
 # && export CATALINA_HOME="$PWD" \
  && gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" \
- && ./configure --build="$gnuArch" --libdir="$TOMCAT_NATIVE_LIBDIR" --prefix="$CATALINA_HOME" --with-apr="$(which apr-1-config)" --with-java-home="$(dirname "$(dirname "$(readlink -f "$(which javac || which java)")")")" --with-ssl=yes \
+ && ./configure --build="$gnuArch" --libdir="$TOMCAT_NATIVE_LIBDIR" --prefix="$CATALINA_HOME" --with-apr="$(which apr-1-config)" --with-java-home="$JAVA_HOME" --with-ssl=yes \
  && make -j "$(nproc)" \
  && make install \
  && rm -rf "$nativeBuildDir" \
