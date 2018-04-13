@@ -1,7 +1,5 @@
 FROM huggla/openjre-alpine
 
-USER root
-
 ENV BEV_NAME="tomcat"
 ENV CATALINA_HOME /usr/local/tomcat
 ENV PATH $CATALINA_HOME/bin:$PATH
@@ -49,35 +47,16 @@ RUN mkdir -p "$CATALINA_HOME" \
  && make install \
  && rm -rf "$nativeBuildDir" \
 # && rm bin/tomcat-native.tar.gz \
- && runDeps="$(scanelf --needed --nobanner --format '%n#p' --recursive "$TOMCAT_NATIVE_LIBDIR" | tr ',' '\n' | sort -u | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }')" \
- && apk add --virtual .tomcat-native-rundeps $runDeps \
+ && export runDeps="$(scanelf --needed --nobanner --format '%n#p' --recursive "$TOMCAT_NATIVE_LIBDIR" | tr ',' '\n' | sort -u | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }')" \
+# && apk add --virtual .tomcat-native-rundeps $runDeps \
  && apk del .fetch-deps .native-build-deps
 
 ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk/jre
 
 # verify Tomcat Native is working properly
-RUN nativeLines="$(catalina.sh configtest 2>&1)" \
- && nativeLines="$(echo "$nativeLines" | grep 'Apache Tomcat Native')" \
- && nativeLines="$(echo "$nativeLines" | sort -u)" \
- && if ! echo "$nativeLines" | grep 'INFO: Loaded APR based Apache Tomcat Native library' >&2; then echo >&2 "$nativeLines"; exit 1; fi
+#RUN nativeLines="$(catalina.sh configtest 2>&1)" \
+# && nativeLines="$(echo "$nativeLines" | grep 'Apache Tomcat Native')" \
+# && nativeLines="$(echo "$nativeLines" | sort -u)" \
+# && if ! echo "$nativeLines" | grep 'INFO: Loaded APR based Apache Tomcat Native library' >&2; then echo >&2 "$nativeLines"; exit 1; fi
 
-# ---------------------------------------------------------------------
-    
-RUN chmod go= /bin /sbin /usr/bin /usr/sbin \
- && chown root:$BEV_NAME "$BIN_DIR/"* \
- && chmod u=rx,g=rx,o= "$BIN_DIR/"* \
- && ln /usr/bin/sudo "$BIN_DIR/sudo" \
- && chown root:sudoer "$BIN_DIR/sudo" "$BUILDTIME_ENVIRONMENT" "$RUNTIME_ENVIRONMENT" \
- && chown root:root "$BIN_DIR/start"* \
- && chmod u+s "$BIN_DIR/sudo" \
- && chmod u=rw,g=w,o= "$RUNTIME_ENVIRONMENT" \
- && chmod u=rw,go= "$BUILDTIME_ENVIRONMENT" "$SUDOERS_DIR/docker"*
- 
 USER sudoer
-
-# Image-specific runtime environment variables.
-# ---------------------------------------------------------------------
-
-# ---------------------------------------------------------------------
-
-#CMD ["sudo","start"]
