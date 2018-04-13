@@ -47,9 +47,9 @@ RUN mkdir -p "$CATALINA_HOME" \
  && make install \
  && rm -rf "$nativeBuildDir" \
 # && rm bin/tomcat-native.tar.gz \
- && export runDeps="$(scanelf --needed --nobanner --format '%n#p' --recursive "$TOMCAT_NATIVE_LIBDIR" | tr ',' '\n' | sort -u | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }')" \
+ && export runDeps="$(scanelf --needed --nobanner --format '%n#p' --recursive "$TOMCAT_NATIVE_LIBDIR" | tr ',' '\n' | sort -u | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }')"
 # && apk add --virtual .tomcat-native-rundeps $runDeps \
- && apk del .fetch-deps .native-build-deps
+RUN apk del .fetch-deps .native-build-deps
 
 ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk/jre
 
