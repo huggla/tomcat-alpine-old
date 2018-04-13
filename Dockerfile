@@ -9,6 +9,7 @@ ENV TOMCAT_NATIVE_LIBDIR $CATALINA_HOME/native-jni-lib
 ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$TOMCAT_NATIVE_LIBDIR
 ENV TOMCAT_MAJOR 9
 ENV TOMCAT_VERSION 9.0.7
+ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk
 ENV TOMCAT_TGZ_URLS \
 # https://issues.apache.org/jira/browse/INFRA-8753?focusedCommentId=14735394#comment-14735394
 	https://www.apache.org/dyn/closer.cgi?action=download&filename=tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz \
@@ -51,6 +52,8 @@ RUN mkdir -p "$CATALINA_HOME" \
  && runDeps="$(scanelf --needed --nobanner --format '%n#p' --recursive "$TOMCAT_NATIVE_LIBDIR" | tr ',' '\n' | sort -u | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }')" \
  && apk add --virtual .tomcat-native-rundeps $runDeps \
  && apk del .fetch-deps .native-build-deps
+
+ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk/jre
 
 # verify Tomcat Native is working properly
 RUN nativeLines="$(catalina.sh configtest 2>&1)" \
