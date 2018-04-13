@@ -1,6 +1,6 @@
 FROM huggla/openjre-alpine
 
-ENV BEV_NAME="tomcat"
+ENV REV_LINUX_USER="tomcat"
 ENV CATALINA_HOME /usr/local/tomcat
 ENV PATH $CATALINA_HOME/bin:$PATH
 ENV TOMCAT_NATIVE_LIBDIR $CATALINA_HOME/native-jni-lib
