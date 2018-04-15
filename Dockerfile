@@ -46,18 +46,18 @@ RUN mkdir -p "$CATALINA_HOME" \
  && ./configure --build="$gnuArch" --libdir="$TOMCAT_NATIVE_LIBDIR" --prefix="$CATALINA_HOME" --with-apr="$(which apr-1-config)" --with-java-home="$JAVA_HOME" --with-ssl=yes \
  && make -j "$(nproc)" \
  && make install
-# && rm -rf "$nativeBuildDir" \
-# && rm bin/tomcat-native.tar.gz \
-# && export runDeps="$(scanelf --needed --nobanner --format '%n#p' --recursive "$TOMCAT_NATIVE_LIBDIR" | tr ',' '\n' | sort -u | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }')" \
-# && apk add --virtual .tomcat-native-rundeps $runDeps \
-# && apk del .native-build-deps
+ && rm -rf "$nativeBuildDir" \
+ && rm bin/tomcat-native.tar.gz \
+ && export runDeps="$(scanelf --needed --nobanner --format '%n#p' --recursive "$TOMCAT_NATIVE_LIBDIR" | tr ',' '\n' | sort -u | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }')" \
+ && apk add --virtual .tomcat-native-rundeps $runDeps \
+ && apk del .native-build-deps
 
-#ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk/jre
+ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk/jre
 
 # verify Tomcat Native is working properly
-#RUN nativeLines="$(catalina.sh configtest 2>&1)" \
-# && nativeLines="$(echo "$nativeLines" | grep 'Apache Tomcat Native')" \
-# && nativeLines="$(echo "$nativeLines" | sort -u)" \
-# && if ! echo "$nativeLines" | grep 'INFO: Loaded APR based Apache Tomcat Native library' >&2; then echo >&2 "$nativeLines"; exit 1; fi
+RUN nativeLines="$(catalina.sh configtest 2>&1)" \
+ && nativeLines="$(echo "$nativeLines" | grep 'Apache Tomcat Native')" \
+ && nativeLines="$(echo "$nativeLines" | sort -u)" \
+ && if ! echo "$nativeLines" | grep 'INFO: Loaded APR based Apache Tomcat Native library' >&2; then echo >&2 "$nativeLines"; exit 1; fi
 
 USER sudoer
