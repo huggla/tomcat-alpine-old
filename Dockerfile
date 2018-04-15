@@ -25,20 +25,20 @@ RUN mkdir -p "$CATALINA_HOME" \
 # && export GNUPGHOME="$(mktemp -d)" \
 # && for key in $GPG_KEYS; do gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key"; done \
  && echo "hej" \
- && tmpDir="$(mktemp -d)" \
- && cd "$tmpDir" \
+# && tmpDir="$(mktemp -d)" \
+ && cd "$CATALINA_HOME" \
  && for url in $TOMCAT_TGZ_URLS; do if wget -O tomcat.tar.gz "$url"; then success=1 && break; else success=0; fi; done \
 # && if [ "$success" == 1 ]; then echo "$TOMCAT_SHA1 *tomcat.tar.gz" | sha1sum -c -; fi \
 # && for url in $TOMCAT_ASC_URLS; do if wget -O tomcat.tar.gz.asc "$url"; then success=1 && break; else success=0; fi; done \
 # && if [ "$success" == 1 ]; then echo "$url" && ls -la && cat tomcat.tar.gz.asc && gpg --batch --verify tomcat.tar.gz.asc tomcat.tar.gz; fi \
  && tar -xvf tomcat.tar.gz --strip-components=1 \
-# && rm bin/*.bat \
-# && rm tomcat.tar.gz* \
+ && rm bin/*.bat \
+ && rm tomcat.tar.gz* \
 # && rm -rf "$GNUPGHOME" \
  && nativeBuildDir="$(mktemp -d)" \
  && tar -xvf bin/tomcat-native.tar.gz -C "$nativeBuildDir" --strip-components=1 \
  && cd "$nativeBuildDir/native" \
- && rm -rf "$tmpDir" \
+# && rm -rf "$tmpDir" \
  && apk add --no-cache --virtual .native-build-deps apr-dev coreutils dpkg-dev dpkg gcc libc-dev make openjdk$JAVA_MAJOR openssl-dev \
  && export CATALINA_HOME="$PWD" \
  && gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" \
