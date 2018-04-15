@@ -45,7 +45,7 @@ RUN mkdir -p "$CATALINA_HOME" \
  && echo "$gnuArch" \
  && ./configure --build="$gnuArch" --libdir="$TOMCAT_NATIVE_LIBDIR" --prefix="$CATALINA_HOME" --with-apr="$(which apr-1-config)" --with-java-home="$JAVA_HOME" --with-ssl=yes \
  && make -j "$(nproc)" \
- && make install
+ && make install \
  && rm -rf "$nativeBuildDir" \
  && rm bin/tomcat-native.tar.gz \
  && export runDeps="$(scanelf --needed --nobanner --format '%n#p' --recursive "$TOMCAT_NATIVE_LIBDIR" | tr ',' '\n' | sort -u | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }')" \
