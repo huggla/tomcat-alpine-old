@@ -37,6 +37,7 @@ RUN mkdir -p "$CATALINA_HOME" \
 # && rm -rf "$GNUPGHOME" \
  && nativeBuildDir="$(mktemp -d)" \
  && tar -xvf bin/tomcat-native.tar.gz -C "$nativeBuildDir" --strip-components=1 \
+ && rm bin/tomcat-native.tar.gz \
  && cd "$nativeBuildDir/native" \
 # && rm -rf "$tmpDir" \
  && apk add --no-cache --virtual .native-build-deps apr-dev coreutils dpkg-dev dpkg gcc libc-dev make openjdk$JAVA_MAJOR openssl-dev \
@@ -47,7 +48,6 @@ RUN mkdir -p "$CATALINA_HOME" \
  && make -j "$(nproc)" \
  && make install \
  && rm -rf "$nativeBuildDir" \
- && rm bin/tomcat-native.tar.gz \
  && export runDeps="$(scanelf --needed --nobanner --format '%n#p' --recursive "$TOMCAT_NATIVE_LIBDIR" | tr ',' '\n' | sort -u | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }')" \
  && apk add --virtual .tomcat-native-rundeps $runDeps \
  && apk del .native-build-deps \
