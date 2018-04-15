@@ -47,10 +47,11 @@ RUN mkdir -p "$CATALINA_HOME" \
  && make -j "$(nproc)" \
  && make install \
  && rm -rf "$nativeBuildDir" \
-# && rm bin/tomcat-native.tar.gz \
+ && rm bin/tomcat-native.tar.gz \
  && export runDeps="$(scanelf --needed --nobanner --format '%n#p' --recursive "$TOMCAT_NATIVE_LIBDIR" | tr ',' '\n' | sort -u | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }')" \
  && apk add --virtual .tomcat-native-rundeps $runDeps \
- && apk del .native-build-deps
+ && apk del .native-build-deps \
+ && ln /usr/local/tomcat/*.sh /usr/local/bin/
 
 ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk/jre
 
