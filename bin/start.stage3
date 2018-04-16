@@ -1,2 +1,2 @@
 /bin/chown -R $LINUX_USER:$LINUX_USER /usr/local/tomcat
-exec /usr/bin/env -i /usr/local/sbin/sudo -u $LINUX_USER /usr/local/tomcat/bin/catalina.sh run
+exec /usr/bin/env -i /usr/local/sbin/sudo -u $LINUX_USER JAVA_HOME=$JAVA_HOME /usr/local/tomcat/bin/catalina.sh run
