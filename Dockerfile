@@ -13,11 +13,11 @@ ENV REV_LINUX_USER="tomcat" \
 # ---------------------------------------------------------------------
 RUN mkdir -p "$CATALINA_HOME" \
  && wget -O "$CATALINA_HOME/tomcat.tar.gz" "https://www.apache.org/dyn/closer.cgi?action=download&filename=tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz" \
- && tar -C "$CATALINA_HOME" -xvf tomcat.tar.gz --strip-components=1 \
+ && tar -xvf "$CATALINA_HOME/tomcat.tar.gz" -C "$CATALINA_HOME" --strip-components=1 \
  && rm "$CATALINA_HOME/bin/"*.bat \
  && rm "$CATALINA_HOME/tomcat.tar.gz"* \
  && nativeBuildDir="$(mktemp -d)" \
- && tar -xvf bin/tomcat-native.tar.gz -C "$nativeBuildDir" --strip-components=1 \
+ && tar -xvf "$CATALINA_HOME/bin/tomcat-native.tar.gz" -C "$nativeBuildDir" --strip-components=1 \
  && rm "$CATALINA_HOME/bin/"*.gz \
 # && rm bin/tomcat-native.tar.gz \
  && cd "$nativeBuildDir/native" \
