@@ -2,7 +2,7 @@ FROM huggla/openjre-alpine
 
 ENV REV_LINUX_USER="tomcat" \
     CATALINA_HOME="/usr/local" \
-    PATH="$CATALINA_HOME/bin:$PATH" \
+   # PATH="$CATALINA_HOME/bin:$PATH" \
     TOMCAT_NATIVE_LIBDIR="$CATALINA_HOME/native-jni-lib" \
     LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$TOMCAT_NATIVE_LIBDIR" \
     TOMCAT_MAJOR="9" \
@@ -20,9 +20,9 @@ RUN wget -O "$CATALINA_HOME/tomcat.tar.gz" "https://www.apache.org/dyn/closer.cg
  && rm "$CATALINA_HOME/bin/"*.gz \
 # && rm bin/tomcat-native.tar.gz \
  && apk add --no-cache --virtual .native-build-deps apr-dev coreutils dpkg-dev dpkg gcc libc-dev make openjdk$JAVA_MAJOR openssl-dev \
- && export CATALINA_HOME="$nativeBuildDir/native" \
+# && export CATALINA_HOME="$nativeBuildDir/native" \
  && cd "$nativeBuildDir/native" \
- && ./configure --build="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" --libdir="$TOMCAT_NATIVE_LIBDIR" --prefix="$nativeBuildDir/native" --with-apr="$(which apr-1-config)" --with-java-home="$JAVA_HOME" --with-ssl=yes \
+ && ./configure --build="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" --libdir="$TOMCAT_NATIVE_LIBDIR" --prefix="$CATALINA_HOME" --with-apr="$(which apr-1-config)" --with-java-home="$JAVA_HOME" --with-ssl=yes \
  && make -j "$(nproc)" \
  && make install \
  && cd / \
@@ -37,10 +37,10 @@ RUN wget -O "$CATALINA_HOME/tomcat.tar.gz" "https://www.apache.org/dyn/closer.cg
 ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk/jre
 
 # verify Tomcat Native is working properly
-#RUN nativeLines="$(catalina.sh configtest 2>&1)" \
-# && nativeLines="$(echo "$nativeLines" | grep 'Apache Tomcat Native')" \
-# && nativeLines="$(echo "$nativeLines" | sort -u)" \
-# && echo "$nativeLines" \
-# && if ! echo "$nativeLines" | grep 'INFO: Loaded APR based Apache Tomcat Native library' >&2; then echo >&2 "$nativeLines"; exit 1; fi
+RUN nativeLines="$(catalina.sh configtest 2>&1)" \
+ && nativeLines="$(echo "$nativeLines" | grep 'Apache Tomcat Native')" \
+ && nativeLines="$(echo "$nativeLines" | sort -u)" \
+ && echo "$nativeLines" \
+ && if ! echo "$nativeLines" | grep 'INFO: Loaded APR based Apache Tomcat Native library' >&2; then echo >&2 "$nativeLines"; exit 1; fi
 
 USER sudoer
