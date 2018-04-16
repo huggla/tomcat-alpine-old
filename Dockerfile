@@ -8,6 +8,8 @@ ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$TOMCAT_NATIVE_LIBDIR"
     TOMCAT_VERSION="9.0.7" \
     JAVA_HOME="/usr/lib/jvm/java-1.8-openjdk"
 
+COPY ./bin ${BIN_DIR}
+
 RUN mkdir -p "$CATALINA_HOME" \
  && wget -O "$CATALINA_HOME/tomcat.tar.gz" "https://www.apache.org/dyn/closer.cgi?action=download&filename=tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz" \
  && tar -xvf "$CATALINA_HOME/tomcat.tar.gz" -C "$CATALINA_HOME" --strip-components=1 \
