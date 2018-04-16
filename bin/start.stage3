@@ -1,2 +1,5 @@
+/bin/ln /usr/bin/dirname /usr/local/bin/
+/bin/chown root:tomcat /bin
+/bin/chmod g+rx /bin
 /bin/chown -R $LINUX_USER:$LINUX_USER /usr/local/tomcat
 exec /usr/bin/env -i /usr/local/sbin/sudo -u $LINUX_USER JAVA_HOME=$JAVA_HOME /usr/local/tomcat/bin/catalina.sh run
