@@ -1,1 +1,2 @@
+/bin/chown -R tomcat:tomcat /usr/local/tomcat
 exec /usr/bin/env -i /usr/local/sbin/sudo -u $LINUX_USER $BIN_DIR/catalina.sh run
