@@ -29,6 +29,7 @@ RUN wget -O "$CATALINA_HOME/tomcat.tar.gz" "https://www.apache.org/dyn/closer.cg
  && rm -rf "$nativeBuildDir" \
  && export runDeps="$(scanelf --needed --nobanner --format '%n#p' --recursive "$TOMCAT_NATIVE_LIBDIR" | tr ',' '\n' | sort -u | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }')" \
  && echo "$runDeps" \
+ && apk update \
  && apk add --virtual .tomcat-native-rundeps $runDeps \
  && apk del .native-build-deps
 # && ln /usr/local/tomcat/bin/*.sh /usr/local/bin/
