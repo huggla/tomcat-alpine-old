@@ -1,7 +1,7 @@
 FROM huggla/openjre-alpine
 
 ENV REV_LINUX_USER="tomcat" \
-    CATALINA_HOME="/usr/local" \
+    CATALINA_HOME="/usr/local/tomcat" \
    # PATH="$CATALINA_HOME/bin:$PATH" \
     TOMCAT_NATIVE_LIBDIR="$CATALINA_HOME/native-jni-lib" \
     LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$TOMCAT_NATIVE_LIBDIR" \
@@ -30,8 +30,8 @@ RUN wget -O "$CATALINA_HOME/tomcat.tar.gz" "https://www.apache.org/dyn/closer.cg
  && export runDeps="$(scanelf --needed --nobanner --format '%n#p' --recursive "$TOMCAT_NATIVE_LIBDIR" | tr ',' '\n' | sort -u | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }')" \
  && apk update \
  && apk add --virtual .tomcat-native-rundeps $runDeps \
- && apk del .native-build-deps
-# && ln /usr/local/tomcat/bin/*.sh /usr/local/bin/
+ && apk del .native-build-deps \
+ && ln /usr/local/tomcat/bin/*.sh /usr/local/bin/
 
 ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk/jre
 
