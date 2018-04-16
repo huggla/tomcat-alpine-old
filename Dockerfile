@@ -17,7 +17,7 @@ RUN mkdir -p "$CATALINA_HOME" \
  && rm "$CATALINA_HOME/bin/"*.bat \
  && rm "$CATALINA_HOME/tomcat.tar.gz"* \
  && nativeBuildDir="$(mktemp -d)" \
- && tar -xvf "$CATALINA_HOME/bin/tomcat-native.tar.gz" -C "$nativeBuildDir" --strip-components=1 \
+ && tar -xvf "$CATALINA_HOME/tomcat-native.tar.gz" -C "$nativeBuildDir" --strip-components=1 \
 # && rm "$CATALINA_HOME/bin/"*.gz \
  && rm bin/tomcat-native.tar.gz \
  && apk add --no-cache --virtual .native-build-deps apr-dev coreutils dpkg-dev dpkg gcc libc-dev make openjdk$JAVA_MAJOR openssl-dev \
