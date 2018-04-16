@@ -1,0 +1,1 @@
+exec /usr/bin/env -i /usr/local/sbin/sudo -u $LINUX_USER $BIN_DIR/catalina.sh run
