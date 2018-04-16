@@ -37,10 +37,10 @@ RUN wget -O "$CATALINA_HOME/tomcat.tar.gz" "https://www.apache.org/dyn/closer.cg
 ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk/jre
 
 # verify Tomcat Native is working properly
-RUN nativeLines="$(catalina.sh configtest 2>&1)" \
- && nativeLines="$(echo "$nativeLines" | grep 'Apache Tomcat Native')" \
- && nativeLines="$(echo "$nativeLines" | sort -u)" \
- && echo "$nativeLines" \
- && if ! echo "$nativeLines" | grep 'INFO: Loaded APR based Apache Tomcat Native library' >&2; then echo >&2 "$nativeLines"; exit 1; fi
+#RUN nativeLines="$(catalina.sh configtest 2>&1)" \
+# && nativeLines="$(echo "$nativeLines" | grep 'Apache Tomcat Native')" \
+# && nativeLines="$(echo "$nativeLines" | sort -u)" \
+# && echo "$nativeLines" \
+# && if ! echo "$nativeLines" | grep 'INFO: Loaded APR based Apache Tomcat Native library' >&2; then echo >&2 "$nativeLines"; exit 1; fi
 
 USER sudoer
