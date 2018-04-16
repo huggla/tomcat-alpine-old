@@ -2,7 +2,7 @@ FROM huggla/openjre-alpine
 
 ENV REV_LINUX_USER="tomcat" \
     CATALINA_HOME="/usr/local/tomcat" \
-#    PATH="$CATALINA_HOME/bin:$PATH" \
+    PATH="$CATALINA_HOME/bin:$PATH" \
     TOMCAT_NATIVE_LIBDIR="$CATALINA_HOME/native-jni-lib" \
     LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$TOMCAT_NATIVE_LIBDIR" \
     TOMCAT_MAJOR="9" \
