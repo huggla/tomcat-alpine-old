@@ -27,7 +27,7 @@ RUN mkdir -p "$CATALINA_HOME" \
  && cd / \
  && rm -rf "$nativeBuildDir" \
  && export runDeps="$(scanelf --needed --nobanner --format '%n#p' --recursive "$TOMCAT_NATIVE_LIBDIR" | tr ',' '\n' | sort -u | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }')" \
- && apk update \
+# && apk update \
  && apk add --virtual .tomcat-native-rundeps $runDeps \
  && apk del .native-build-deps \
  && ln /usr/local/tomcat/bin/*.sh /usr/local/bin/
