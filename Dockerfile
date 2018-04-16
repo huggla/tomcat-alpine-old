@@ -8,8 +8,6 @@ ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$TOMCAT_NATIVE_LIBDIR"
     TOMCAT_VERSION="9.0.7" \
     JAVA_HOME="/usr/lib/jvm/java-1.8-openjdk"
 
-# Image-specific RUN commands.
-# ---------------------------------------------------------------------
 RUN mkdir -p "$CATALINA_HOME" \
  && wget -O "$CATALINA_HOME/tomcat.tar.gz" "https://www.apache.org/dyn/closer.cgi?action=download&filename=tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz" \
  && tar -xvf "$CATALINA_HOME/tomcat.tar.gz" -C "$CATALINA_HOME" --strip-components=1 \
@@ -27,7 +25,7 @@ RUN mkdir -p "$CATALINA_HOME" \
  && cd / \
  && rm -rf "$nativeBuildDir" \
  && export runDeps="$(scanelf --needed --nobanner --format '%n#p' --recursive "$TOMCAT_NATIVE_LIBDIR" | tr ',' '\n' | sort -u | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }')" \
-# && apk update \
+ && apk update \
  && apk add --virtual .tomcat-native-rundeps $runDeps \
  && apk del .native-build-deps \
  && ln /usr/local/tomcat/bin/*.sh /usr/local/bin/
