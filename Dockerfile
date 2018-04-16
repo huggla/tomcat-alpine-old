@@ -2,7 +2,7 @@ FROM huggla/openjre-alpine
 
 ENV REV_LINUX_USER="tomcat" \
     CATALINA_HOME="/usr/local/tomcat" \
-   # PATH="$CATALINA_HOME/bin:$PATH" \
+#    PATH="$CATALINA_HOME/bin:$PATH" \
     TOMCAT_NATIVE_LIBDIR="$CATALINA_HOME/native-jni-lib" \
     LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$TOMCAT_NATIVE_LIBDIR" \
     TOMCAT_MAJOR="9" \
@@ -11,7 +11,8 @@ ENV REV_LINUX_USER="tomcat" \
 
 # Image-specific RUN commands.
 # ---------------------------------------------------------------------
-RUN wget -O "$CATALINA_HOME/tomcat.tar.gz" "https://www.apache.org/dyn/closer.cgi?action=download&filename=tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz" \
+RUN mkdir -p "$CATALINA_HOME" \
+ && wget -O "$CATALINA_HOME/tomcat.tar.gz" "https://www.apache.org/dyn/closer.cgi?action=download&filename=tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz" \
  && tar -xvf "$CATALINA_HOME/tomcat.tar.gz" -C "$CATALINA_HOME" --strip-components=1 \
  && rm "$CATALINA_HOME/bin/"*.bat \
  && rm "$CATALINA_HOME/tomcat.tar.gz"* \
