@@ -30,9 +30,12 @@ RUN mkdir -p "$CATALINA_HOME" \
  && apk update \
  && apk add --virtual .tomcat-native-rundeps $runDeps \
  && apk del .native-build-deps \
- && ln /usr/local/tomcat/bin/*.sh /usr/local/bin/
+ && chmod o= /bin/* \
+ && ln /usr/local/tomcat/bin/*.sh "$BIN_DIR/" \
+ && ln /usr/bin/dirname "$BIN_DIR/" \
+ && ln /usr/bin/expr "$BIN_DIR/"
 
-ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk/jre
+ENV JAVA_HOME="/usr/lib/jvm/java-1.8-openjdk/jre"
 
 # verify Tomcat Native is working properly
 RUN nativeLines="$(catalina.sh configtest 2>&1)" \
@@ -41,3 +44,8 @@ RUN nativeLines="$(catalina.sh configtest 2>&1)" \
  && if ! echo "$nativeLines" | grep 'INFO: Loaded APR based Apache Tomcat Native library' >&2; then echo >&2 "$nativeLines"; exit 1; fi
 
 USER sudoer
+
+ENV REV_JAVA_HOME="$JAVA_HOME" \
+    REV_TOMCAT_NATIVE_LIBDIR="$TOMCAT_NATIVE_LIBDIR" \
+    REV_LD_LIBRARY_PATH="$LD_LIBRARY_PATH"
+    
