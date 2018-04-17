@@ -1,4 +1,4 @@
-/bin/chown root:$LINUX_USER /bin /bin/sh /usr/bin/expr /usr/bin/dirname /usr/bin/tty
+/bin/chown root:$LINUX_USER /bin /bin/busybox /usr/bin/expr /usr/bin/dirname /usr/bin/tty /usr/bin/nohup
 /bin/chown -R $LINUX_USER:root /usr/local/tomcat
 JAVA_HOME="$(var - JAVA_HOME)"
 CATALINA_HOME="$(var - CATALINA_HOME)"
