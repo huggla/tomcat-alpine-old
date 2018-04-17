@@ -46,6 +46,4 @@ RUN nativeLines="$(catalina.sh configtest 2>&1)" \
 USER sudoer
 
 ENV REV_JAVA_HOME="$JAVA_HOME" \
-    REV_TOMCAT_NATIVE_LIBDIR="$TOMCAT_NATIVE_LIBDIR" \
-    REV_LD_LIBRARY_PATH="$LD_LIBRARY_PATH"
-    
+    REV_CATALINA_HOME="$CATALINA_HOME"    
