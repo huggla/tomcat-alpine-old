@@ -11,6 +11,9 @@ ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$TOMCAT_NATIVE_LIBDIR"
 COPY ./bin ${BIN_DIR}
 
 RUN mkdir -p "$CATALINA_HOME" \
+ && chmod go= /bin/* \
+ && chmod -R o= "$CATALINA_HOME" \
+ && chmod g+rx /bin /bin/sh /usr/bin/expr /usr/bin/dirname /usr/bin/tty \
  && wget -O "$CATALINA_HOME/tomcat.tar.gz" "https://www.apache.org/dyn/closer.cgi?action=download&filename=tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz" \
  && tar -xvf "$CATALINA_HOME/tomcat.tar.gz" -C "$CATALINA_HOME" --strip-components=1 \
  && rm "$CATALINA_HOME/bin/"*.bat \
@@ -30,11 +33,7 @@ RUN mkdir -p "$CATALINA_HOME" \
  && apk update \
  && apk add --virtual .tomcat-native-rundeps $runDeps \
  && apk del .native-build-deps \
- && sleep 1 \
- && chmod go= /bin/* \
- && chmod -R o= /usr/local/tomcat \
- && chmod g+rx /bin /bin/sh /usr/bin/expr /usr/bin/dirname /usr/bin/tty \
- && ln /usr/local/tomcat/bin/*.sh "$BIN_DIR/" \
+ && ln "$CATALINA_HOME/bin/"*.sh "$BIN_DIR/" \
  && ln /usr/bin/dirname "$BIN_DIR/" \
  && ln /usr/bin/expr "$BIN_DIR/" \
  && ln /usr/bin/tty "$BIN_DIR/"
