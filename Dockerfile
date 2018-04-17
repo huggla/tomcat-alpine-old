@@ -39,7 +39,7 @@ RUN mkdir -p "$CATALINA_HOME" \
  && ln /usr/bin/dirname "$BIN_DIR/" \
  && ln /usr/bin/expr "$BIN_DIR/" \
  && ln /usr/bin/tty "$BIN_DIR/" \
- && ln /usr/bin/nohup $BIN_DIR/"
+ && ln /usr/bin/nohup "$BIN_DIR/"
 
 ENV JAVA_HOME="/usr/lib/jvm/java-1.8-openjdk/jre"
 
