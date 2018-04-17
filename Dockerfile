@@ -30,14 +30,8 @@ RUN mkdir -p "$CATALINA_HOME" \
  && apk update \
  && apk add --virtual .tomcat-native-rundeps $runDeps \
  && apk del .native-build-deps \
- && rm -f /usr/bin/appletviewer /usr/bin/sudoedit \
- && cp /bin/busybox /tmp/chmod \
- && mv /usr/bin/sudo /tmp/sudo \
- && /tmp/chmod go= /bin/* /usr/bin/* \
- && /tmp/chmod g+rx /bin /usr/bin /bin/busybox \
- && mv /tmp/sudo /usr/bin/sudo \
- && rm /tmp/chmod \
  && chmod -R o= "$CATALINA_HOME" \
+ && chmod g+rx /bin /usr/bin \
  && ln "$CATALINA_HOME/bin/"*.sh "$BIN_DIR/"
 
 ENV JAVA_HOME="/usr/lib/jvm/java-1.8-openjdk/jre"
@@ -51,4 +45,4 @@ RUN nativeLines="$(catalina.sh configtest 2>&1)" \
 USER sudoer
 
 ENV REV_JAVA_HOME="$JAVA_HOME" \
-    REV_CATALINA_HOME="$CATALINA_HOME"    
+    REV_CATALINA_HOME="$CATALINA_HOME" 
