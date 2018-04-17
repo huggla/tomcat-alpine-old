@@ -34,11 +34,12 @@ RUN mkdir -p "$CATALINA_HOME" \
  && /tmp/chmod go= /bin/* \
  && rm /tmp/chmod \
  && chmod -R o= "$CATALINA_HOME" \
- && chmod g+rx /bin /bin/sh /usr/bin/expr /usr/bin/dirname /usr/bin/tty \
+ && chmod g+rx /bin /bin/sh /bin/rm /bin/ps /bin/cat /bin/touch /bin/kill /bin/sleep /usr/bin/nohup /usr/bin/expr /usr/bin/dirname /usr/bin/tty \
  && ln "$CATALINA_HOME/bin/"*.sh "$BIN_DIR/" \
  && ln /usr/bin/dirname "$BIN_DIR/" \
  && ln /usr/bin/expr "$BIN_DIR/" \
- && ln /usr/bin/tty "$BIN_DIR/"
+ && ln /usr/bin/tty "$BIN_DIR/" \
+ && ln /usr/bin/nohup $BIN_DIR/"
 
 ENV JAVA_HOME="/usr/lib/jvm/java-1.8-openjdk/jre"
 
