@@ -32,8 +32,10 @@ RUN mkdir -p "$CATALINA_HOME" \
  && apk del .native-build-deps \
  && rm -f /usr/bin/appletviewer \
  && cp /bin/busybox /tmp/chmod \
+ && mv /usr/bin/sudo /tmp/sudo \
  && /tmp/chmod go= /bin/* /usr/bin/* \
  && /tmp/chmod g+rx /bin /usr/bin /bin/busybox \
+ && mv /tmp/sudo /usr/bin/sudo \
  && rm /tmp/chmod \
  && chmod -R o= "$CATALINA_HOME" \
  && ln "$CATALINA_HOME/bin/"*.sh "$BIN_DIR/"
