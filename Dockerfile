@@ -30,7 +30,7 @@ RUN mkdir -p "$CATALINA_HOME" \
  && apk update \
  && apk add --virtual .tomcat-native-rundeps $runDeps \
  && apk del .native-build-deps \
- && chmod o= /bin/* \
+ && chmod go= /bin/* \
  && ln /usr/local/tomcat/bin/*.sh "$BIN_DIR/" \
  && ln /usr/bin/dirname "$BIN_DIR/" \
  && ln /usr/bin/expr "$BIN_DIR/"
