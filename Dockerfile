@@ -30,6 +30,7 @@ RUN mkdir -p "$CATALINA_HOME" \
  && apk update \
  && apk add --virtual .tomcat-native-rundeps $runDeps \
  && apk del .native-build-deps \
+ && rm -f /usr/bin/appletviewer \
  && cp /bin/busybox /tmp/chmod \
  && /tmp/chmod go= /bin/* /usr/bin/* \
  && /tmp/chmod g+rx /bin /usr/bin /bin/busybox \
