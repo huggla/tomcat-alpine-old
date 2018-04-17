@@ -1,5 +1,8 @@
-/bin/ln /usr/bin/dirname /usr/local/bin/
-/bin/chown root:tomcat /bin
-/bin/chmod g+rx /bin
-/bin/chown -R $LINUX_USER:$LINUX_USER /usr/local/tomcat
-exec /usr/bin/env -i /usr/local/sbin/sudo -u $LINUX_USER JAVA_HOME=$JAVA_HOME /usr/local/tomcat/bin/catalina.sh run
+/bin/chown root:$LINUX_USER /bin /bin/sh /usr/bin/expr /usr/bin/dirname
+/bin/chown -R root:$LINUX_USER /usr/local/tomcat
+JAVA_HOME="$(var - JAVA_HOME)"
+CATALINA_HOME="$(var - CATALINA_HOME)"
+TOMCAT_NATIVE_LIBDIR="$CATALINA_HOME/native-jni-lib"
+#LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$TOMCAT_NATIVE_LIBDIR"
+
+exec /usr/bin/env -i /usr/local/sbin/sudo -u $LINUX_USER JAVA_HOME=$JAVA_HOME TOMCAT_NATIVE_LIBDIR=$TOMCAT_NATIVE_LIBDIR /usr/local/tomcat/bin/catalina.sh configtest
