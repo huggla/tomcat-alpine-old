@@ -1,4 +1,4 @@
-FROM huggla/openjre-alpine
+FROM huggla/openjre-alpine:20180417
 
 ENV REV_LINUX_USER="tomcat" \
     CATALINA_HOME="/usr/local/tomcat"
