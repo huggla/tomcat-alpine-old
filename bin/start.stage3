@@ -1,5 +1,5 @@
 /bin/chown root:$LINUX_USER /bin /bin/sh /usr/bin/expr /usr/bin/dirname
-/bin/chown -R root:$LINUX_USER /usr/local/tomcat
+/bin/chown -R $LINUX_USER:root /usr/local/tomcat
 JAVA_HOME="$(var - JAVA_HOME)"
 CATALINA_HOME="$(var - CATALINA_HOME)"
 TOMCAT_NATIVE_LIBDIR="$CATALINA_HOME/native-jni-lib"
