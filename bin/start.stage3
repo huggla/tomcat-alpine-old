@@ -5,4 +5,5 @@ CATALINA_HOME="$(var - CATALINA_HOME)"
 TOMCAT_NATIVE_LIBDIR="$CATALINA_HOME/native-jni-lib"
 LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$TOMCAT_NATIVE_LIBDIR"
 
-exec /usr/bin/env -i /usr/local/sbin/sudo -u $LINUX_USER JAVA_HOME=$JAVA_HOME LD_LIBRARY_PATH=$LD_LIBRARY_PATH /usr/local/tomcat/bin/catalina.sh configtest
+#exec /usr/bin/env -i /usr/local/sbin/sudo -u $LINUX_USER JAVA_HOME=$JAVA_HOME LD_LIBRARY_PATH=$LD_LIBRARY_PATH /usr/local/tomcat/bin/catalina.sh configtest
+exec /usr/bin/env -i /usr/local/sbin/sudo -u $LINUX_USER JAVA_HOME=$JAVA_HOME LD_LIBRARY_PATH=$LD_LIBRARY_PATH /usr/local/tomcat/bin/catalina.sh run
