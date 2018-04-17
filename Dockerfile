@@ -31,15 +31,11 @@ RUN mkdir -p "$CATALINA_HOME" \
  && apk add --virtual .tomcat-native-rundeps $runDeps \
  && apk del .native-build-deps \
  && cp /bin/busybox /tmp/chmod \
- && /tmp/chmod go= /bin/* \
+ && /tmp/chmod go= /bin/* /usr/bin/* \
+ && /tmp/chmod g+rx /bin /usr/bin /bin/busybox \
  && rm /tmp/chmod \
  && chmod -R o= "$CATALINA_HOME" \
- && chmod g+rx /bin /bin/sh /bin/rm /bin/ps /bin/cat /bin/touch /bin/kill /bin/sleep /usr/bin/nohup /usr/bin/expr /usr/bin/dirname /usr/bin/tty \
- && ln "$CATALINA_HOME/bin/"*.sh "$BIN_DIR/" \
- && ln /usr/bin/dirname "$BIN_DIR/" \
- && ln /usr/bin/expr "$BIN_DIR/" \
- && ln /usr/bin/tty "$BIN_DIR/" \
- && ln /usr/bin/nohup "$BIN_DIR/"
+ && ln "$CATALINA_HOME/bin/"*.sh "$BIN_DIR/"
 
 ENV JAVA_HOME="/usr/lib/jvm/java-1.8-openjdk/jre"
 
