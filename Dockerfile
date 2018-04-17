@@ -32,10 +32,11 @@ RUN mkdir -p "$CATALINA_HOME" \
  && apk del .native-build-deps \
  && chmod -R go= /bin \
  && chmod -R o= /usr/local/tomcat \
- && chmod g+rx /bin /bin/sh /usr/bin/expr /usr/bin/dirname \
+ && chmod g+rx /bin /bin/sh /usr/bin/expr /usr/bin/dirname /usr/bin/tty \
  && ln /usr/local/tomcat/bin/*.sh "$BIN_DIR/" \
  && ln /usr/bin/dirname "$BIN_DIR/" \
- && ln /usr/bin/expr "$BIN_DIR/"
+ && ln /usr/bin/expr "$BIN_DIR/" \
+ && ln /usr/bin/tty "$BIN_DIR/"
 
 ENV JAVA_HOME="/usr/lib/jvm/java-1.8-openjdk/jre"
 
