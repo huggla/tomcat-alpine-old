@@ -1,8 +1,8 @@
 /bin/chown root:$LINUX_USER /bin /usr/bin
 /bin/chown -R $LINUX_USER:root /usr/local/tomcat
 JAVA_HOME="$(var - JAVA_HOME)"
-CATALINA_HOME="$(var - CATALINA_HOME)"
-TOMCAT_NATIVE_LIBDIR="$CATALINA_HOME/native-jni-lib"
+readonly CATALINA_HOME="$(var - CATALINA_HOME)"
+readonly TOMCAT_NATIVE_LIBDIR="$CATALINA_HOME/native-jni-lib"
 LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$TOMCAT_NATIVE_LIBDIR"
 
 #exec /usr/bin/env -i /usr/local/sbin/sudo -u $LINUX_USER JAVA_HOME=$JAVA_HOME LD_LIBRARY_PATH=$LD_LIBRARY_PATH /usr/local/tomcat/bin/catalina.sh configtest
