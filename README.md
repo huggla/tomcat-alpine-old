@@ -2,3 +2,6 @@
 
 # tomcat-alpine
 Tomcat on Alpine, with improved security.
+
+## Capabilities
+Can drop all but CHOWN, SETGID and SETUID.
