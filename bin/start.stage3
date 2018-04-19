@@ -19,5 +19,5 @@ then
 else
    readonly var_str="$(var - var_str)"
 fi
-/usr/bin/env -i /usr/local/sbin/sudo -u $LINUX_USER "$var_str" /usr/local/tomcat/bin/catalina.sh configtest
-exec /usr/bin/env -i /usr/local/sbin/sudo -u $LINUX_USER "$var_str" /usr/local/tomcat/bin/catalina.sh run
+/usr/bin/env -i /usr/local/sbin/sudo -u $LINUX_USER $var_str /usr/local/tomcat/bin/catalina.sh configtest
+exec /usr/bin/env -i /usr/local/sbin/sudo -u $LINUX_USER $var_str /usr/local/tomcat/bin/catalina.sh run
