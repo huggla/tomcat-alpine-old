@@ -12,10 +12,12 @@ then
       fi
    done
    readonly var_str="$(trim $var_str)"
+   echo "REV_var_str=\"$var_str\"" >> "$RESTART_ENVIRONMENT"
    /bin/chown root:$LINUX_USER /bin /usr/bin
    /bin/chown -R $LINUX_USER:root /usr/local/tomcat
    echo 'Defaults env_keep = "$var_str"' >> "/etc/sudoers.d/docker2"
+else
+   readonly var_str="$(var - var_str)"
 fi
-
 /usr/bin/env -i /usr/local/sbin/sudo -u $LINUX_USER "$var_str" /usr/local/tomcat/bin/catalina.sh configtest
 exec /usr/bin/env -i /usr/local/sbin/sudo -u $LINUX_USER "$var_str" /usr/local/tomcat/bin/catalina.sh run
