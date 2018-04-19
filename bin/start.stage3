@@ -1,15 +1,21 @@
 readonly env_list
 if [ "$restart" == "false" ]
 then
+   readonly parameters="$(var param)"
+   var_str=""
+   for param in $parameters
+   do
+      param_value="$(var param $param)"
+      if [ -n "$param_value" ]
+      then
+         var_str="$var_str $param=$param_value"
+      fi
+   done
+   readonly var_str="$(trim $var_str)"
    /bin/chown root:$LINUX_USER /bin /usr/bin
    /bin/chown -R $LINUX_USER:root /usr/local/tomcat
-   echo 'Defaults env_keep = "JAVA_HOME LD_LIBRARY_PATH JAVA_OPTS"' >> "/etc/sudoers.d/docker2"
+   echo 'Defaults env_keep = "$var_str"' >> "/etc/sudoers.d/docker2"
 fi
-readonly JAVA_HOME="$(var - JAVA_HOME)"
-readonly CATALINA_HOME="$(var - CATALINA_HOME)"
-readonly TOMCAT_NATIVE_LIBDIR="$CATALINA_HOME/native-jni-lib"
-readonly LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$TOMCAT_NATIVE_LIBDIR"
-readonly JAVA_OPTS="$(var - JAVA_OPTS)"
 
-#exec /usr/bin/env -i /usr/local/sbin/sudo -u $LINUX_USER JAVA_HOME=$JAVA_HOME LD_LIBRARY_PATH=$LD_LIBRARY_PATH /usr/local/tomcat/bin/catalina.sh configtest
-exec /usr/bin/env -i /usr/local/sbin/sudo -u $LINUX_USER JAVA_HOME=$JAVA_HOME LD_LIBRARY_PATH=$LD_LIBRARY_PATH JAVA_OPTS=$JAVA_OPTS /usr/local/tomcat/bin/catalina.sh run
+/usr/bin/env -i /usr/local/sbin/sudo -u $LINUX_USER "$var_str" /usr/local/tomcat/bin/catalina.sh configtest
+exec /usr/bin/env -i /usr/local/sbin/sudo -u $LINUX_USER "$var_str" /usr/local/tomcat/bin/catalina.sh run
