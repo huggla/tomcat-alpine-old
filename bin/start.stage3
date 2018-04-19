@@ -1,7 +1,7 @@
 readonly env_list
 if [ "$restart" == "false" ]
 then
-   readonly parameters="$(var param)"
+   parameters="$(var param)"
    var_str=""
    for param in $parameters
    do
@@ -11,12 +11,16 @@ then
          var_str="$var_str \"$param=$param_value\""
       fi
    done
-   readonly var_str="$(trim "$var_str")"
+   var_str="$(trim "$var_str")"
    echo "REV_var_str=\"$var_str\"" >> "$RESTART_ENVIRONMENT"
    /bin/chown root:$LINUX_USER /bin /usr/bin
    /bin/chown -R $LINUX_USER:root /usr/local/tomcat
    echo 'Defaults env_keep = "$var_str"' >> "/etc/sudoers.d/docker2"
 else
-   readonly var_str="$(var - var_str)"
+   var_str="$(var - var_str)"
+fi
+if [ -f "$BIN_DIR/start.stage4" ]
+then
+   . "$BIN_DIR/start.stage4"
 fi
 exec /usr/bin/env -i /usr/local/sbin/sudo -u $LINUX_USER $var_str /usr/local/tomcat/bin/catalina.sh run
