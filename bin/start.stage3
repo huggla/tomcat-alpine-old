@@ -8,7 +8,7 @@ then
       param_value="$(var param $param)"
       if [ -n "$param_value" ]
       then
-         var_str="$var_str \"$param=$param_value\""
+         var_str="$var_str '$param=$param_value'"
       fi
    done
    var_str="$(trim "$var_str")"
@@ -23,4 +23,4 @@ if [ -f "$BIN_DIR/start.stage4" ]
 then
    . "$BIN_DIR/start.stage4"
 fi
-exec /usr/bin/env -i /usr/local/sbin/sudo -u "$LINUX_USER" "$var_str" /usr/local/tomcat/bin/catalina.sh run
+exec /usr/bin/env -i /usr/local/sbin/sudo -u $LINUX_USER $var_str /usr/local/tomcat/bin/catalina.sh run
