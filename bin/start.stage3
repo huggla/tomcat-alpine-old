@@ -8,14 +8,17 @@ then
       param_value="$(var param $param)"
       if [ -n "$param_value" ]
       then
-         var_str="$var_str '$param=$param_value'"
+         var_str="$var_str $param=\"$param_value\"
       fi
    done
    var_str="$(trim "$var_str")"
+   echo "$var_str"
    echo "REV_var_str=\"$var_str\"" >> "$RESTART_ENVIRONMENT"
    /bin/chown root:$LINUX_USER /bin /usr/bin
    /bin/chown -R $LINUX_USER:root /usr/local/tomcat
-   echo "Defaults env_keep = \"$(echo "$var_str" | /usr/bin/tr '"' '')\"" >> /etc/sudoers.d/docker2
+   sudoers_var_str="$(echo "$var_str" | /usr/bin/tr '"' '')"
+   echo "$sudoers_var_str"
+   echo "Defaults env_keep = \"$sudoers_var_str\"" >> /etc/sudoers.d/docker2
 else
    var_str="$(var - var_str)"
 fi
