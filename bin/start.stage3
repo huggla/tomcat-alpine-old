@@ -8,7 +8,7 @@ then
       param_value="$(var param $param)"
       if [ -n "$param_value" ]
       then
-         var_str="$var_str $param=\"$param_value\"
+         var_str="$var_str $param=\"$param_value\""
       fi
    done
    var_str="$(trim "$var_str")"
