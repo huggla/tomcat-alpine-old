@@ -8,7 +8,7 @@ then
       param_value="$(var param $param)"
       if [ -n "$param_value" ]
       then
-         var_str="$var_str $param=\\042$param_value\\042"
+         var_str="$var_str"'#'"$param=\\042$param_value\\042"
       fi
    done
    var_str="$(trim "$var_str")"
@@ -16,7 +16,7 @@ then
    echo "REV_var_str=\"$var_str\"" >> "$RESTART_ENVIRONMENT"
    /bin/chown root:$LINUX_USER /bin /usr/bin
    /bin/chown -R $LINUX_USER:root /usr/local/tomcat
-   sudoers_var_str="$(echo "$var_str" | /usr/bin/tr -d '"')"
+   sudoers_var_str="$(echo -e "$var_str" | /usr/bin/tr -d '"' | /usr/bin/tr -d '#')"
    echo "$sudoers_var_str"
    echo "Defaults env_keep = \"$sudoers_var_str\"" >> /etc/sudoers.d/docker2
 else
@@ -24,8 +24,9 @@ else
    echo "$var_str"
    echo $var_str
 fi
+var_str="$(echo -e "$var_str")"
 if [ -f "$BIN_DIR/start.stage4" ]
 then
    . "$BIN_DIR/start.stage4"
 fi
-exec /usr/bin/env -i /usr/local/sbin/sudo -u $LINUX_USER $var_str /usr/local/tomcat/bin/catalina.sh run
+exec /usr/bin/env -i /usr/local/sbin/sudo -u $LINUX_USER /usr/local/bin/tomcat "$var_str"
