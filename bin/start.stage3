@@ -16,7 +16,7 @@ then
    echo "REV_var_str=\"$var_str\"" >> "$RESTART_ENVIRONMENT"
    /bin/chown root:$LINUX_USER /bin /usr/bin
    /bin/chown -R $LINUX_USER:root /usr/local/tomcat
-   sudoers_var_str="$(echo "$var_str" | /usr/bin/tr '"' '')"
+   sudoers_var_str="$(echo "$var_str" | /usr/bin/tr -d '"')"
    echo "$sudoers_var_str"
    echo "Defaults env_keep = \"$sudoers_var_str\"" >> /etc/sudoers.d/docker2
 else
