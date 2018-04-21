@@ -42,4 +42,5 @@ RUN nativeLines="$(catalina.sh configtest 2>&1)" \
 USER sudoer
 
 ENV REV_param_JAVA_HOME="$JAVA_HOME" \
+    REV_param_CATALINA_HOME="$CATALINA_HOME" \
     REV_param_LD_LIBRARY_PATH="$LD_LIBRARY_PATH"
