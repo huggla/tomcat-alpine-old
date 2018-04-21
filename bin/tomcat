@@ -5,7 +5,7 @@ IFS="$(echo -en '#')"
 vars="$(echo "$1" | /usr/bin/tr -d '"')"
 for var in $vars
 do
-   readonly "$var"
+   readonly $var
 done
 IFS=$IFS_bak
 . /usr/local/tomcat/bin/catalina.sh run
