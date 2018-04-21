@@ -19,7 +19,7 @@ RUN mkdir -p "$CATALINA_HOME" \
  && tar -xvf "$CATALINA_HOME/bin/tomcat-native.tar.gz" -C "$nativeBuildDir" --strip-components=1 \
  && rm "$CATALINA_HOME/bin/"*.gz \
 # && rm "$CATALINA_HOME/bin/tomcat-native.tar.gz" \
- && apk add --no-cache --virtual .native-build-deps apr-dev coreutils dpkg-dev dpkg gcc libc-dev make openjdk$JAVA_MAJOR openssl-dev \
+ && apk add --no-cache --virtual .native-build-deps apr-dev coreutils dpkg-dev dpkg gcc libc-dev make openssl-dev \
  && cd "$nativeBuildDir/native" \
  && ./configure --build="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" --libdir="$TOMCAT_NATIVE_LIBDIR" --prefix="$nativeBuildDir/native" --with-apr="$(which apr-1-config)" --with-java-home="$JAVA_HOME" --with-ssl=yes \
  && make -j "$(nproc)" \
