@@ -5,8 +5,7 @@ ENV REV_LINUX_USER="tomcat" \
 ENV TOMCAT_NATIVE_LIBDIR="$CATALINA_HOME/native-jni-lib"
 ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$TOMCAT_NATIVE_LIBDIR" \
     TOMCAT_MAJOR="9" \
-    TOMCAT_VERSION="9.0.7" \
-    JAVA_HOME="/usr/lib/jvm/java-1.8-openjdk"
+    TOMCAT_VERSION="9.0.7"
 
 COPY ./bin ${BIN_DIR}
 
@@ -33,8 +32,6 @@ RUN mkdir -p "$CATALINA_HOME" \
  && chmod -R o= "$CATALINA_HOME" \
  && chmod g+rx /bin /usr/bin \
  && ln "$CATALINA_HOME/bin/"*.sh "$BIN_DIR/"
-
-ENV JAVA_HOME="/usr/lib/jvm/java-1.8-openjdk/jre"
 
 # verify Tomcat Native is working properly
 RUN nativeLines="$(catalina.sh configtest 2>&1)" \
