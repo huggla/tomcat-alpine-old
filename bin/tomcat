@@ -7,4 +7,4 @@ do
    readonly $var
 done
 IFS=$IFS_bak
-. /usr/local/tomcat/bin/catalina.sh
+. /usr/local/tomcat/bin/catalina.sh run
