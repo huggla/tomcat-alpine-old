@@ -31,7 +31,8 @@ RUN mkdir -p "$CATALINA_HOME" \
  && apk del .native-build-deps \
  && chmod -R o= "$CATALINA_HOME" \
  && chmod g+rx /bin /usr/bin \
- && ln "$CATALINA_HOME/bin/"*.sh "$BIN_DIR/"
+ && ln "$CATALINA_HOME/bin/"*.sh "$BIN_DIR/" \
+ && ln "$TOMCAT_NATIVE_LIBDIR"/*.* /usr/lib
 
 # verify Tomcat Native is working properly
 RUN nativeLines="$(catalina.sh configtest 2>&1)" \
